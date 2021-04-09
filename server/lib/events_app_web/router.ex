@@ -13,6 +13,10 @@ defmodule CompanyTestWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # socket "/socket", CompanyTestWeb, via: [Phoenix.Transports.WebSocket] do
+  #   channel "game:xyz", NumEntriesChannel
+  # end
+
   scope "/", CompanyTestWeb do
     pipe_through :browser
 

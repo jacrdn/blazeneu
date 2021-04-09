@@ -1,11 +1,12 @@
 import { Row, Container, Button, Card, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { ReactComponent as Working } from '../assets/working.svg';
 import { ReactComponent as MagnifyingGlass } from '../assets/magnifyingglass.svg';
 
+import { ch_join } from '../socket';
 
 
 
@@ -99,6 +100,12 @@ function List({ companies, session }) {
     const [searchQuery, setSearchQuery] = useState(query || '');
     const filteredCompanies = filterCompanies(companies, searchQuery);
 
+    const [state, setState] = useState({
+        numEntries: 0,
+    });
+
+    useEffect(() => ch_join(setState));
+
     let cards = filteredCompanies.map((company) => (
         <Company company={company} session={session} key={company.id} />
     ));
@@ -139,6 +146,7 @@ function List({ companies, session }) {
             <h1>Companies</h1>
             <CompanyView session={session} />
             <CreateCompany session={session} />
+            <h6>{state.numEntries}</h6>
         </Container>
     );
 }
